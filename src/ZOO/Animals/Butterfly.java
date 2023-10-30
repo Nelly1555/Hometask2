@@ -1,13 +1,19 @@
 package ZOO.Animals;
 
+import ZOO.Aviary.AviarySize;
+import ZOO.Exception.WrongFoodException;
 import ZOO.Food.Food;
 import ZOO.Food.Grass;
+
+import java.util.Objects;
 
 public class Butterfly extends Herbivore implements Fly {
 
     private String name;
     private String color;
+    private final AviarySize size = AviarySize.SMALL;
     private int satiety;
+
 
     public Butterfly (String name, String color) {
 
@@ -17,10 +23,14 @@ public class Butterfly extends Herbivore implements Fly {
 
     }
 
+    public Butterfly() {
+
+    }
+
     @Override
     public void fly() {
 
-        System.out.println(name + " летает по инсектарию.");
+        System.out.println(color + " " + name + " летает по инсектарию.");
         int tiredness = 15;
         satiety = satiety - tiredness;
         System.out.println("Теперь её сытость " + satiety + "%.");
@@ -28,7 +38,7 @@ public class Butterfly extends Herbivore implements Fly {
     }
 
     @Override
-    public void eat(Food food) {
+    public void eat(Food food) throws WrongFoodException {
 
         if (food instanceof Grass) {
 
@@ -39,7 +49,7 @@ public class Butterfly extends Herbivore implements Fly {
             }
 
         } else {
-            System.out.println(name + " не ест мясо!");
+            throw new WrongFoodException("Животное не ест мясо!");
         }
 
     }
@@ -78,6 +88,29 @@ public class Butterfly extends Herbivore implements Fly {
     public void setSatiety(int satiety) {
 
         this.satiety = satiety;
+
+    }
+
+    public AviarySize getSize() {
+
+        return size;
+
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Butterfly butterfly = (Butterfly) obj;
+        return Objects.equals(name, butterfly.name);
+
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(name);
 
     }
 

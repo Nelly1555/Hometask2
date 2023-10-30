@@ -2,6 +2,7 @@ package ZOO.Worker;
 
 import ZOO.Animals.Animals;
 import ZOO.Animals.Voice;
+import ZOO.Exception.WrongFoodException;
 import ZOO.Food.Food;
 
 public class Worker {
@@ -14,7 +15,7 @@ public class Worker {
 
     }
 
-    public void feed(Animals animals, Food food) {
+    public void feed(Animals animals, Food food) throws WrongFoodException {
 
         animals.eat(food);
 

@@ -1,12 +1,17 @@
 package ZOO.Animals;
 
+import ZOO.Aviary.AviarySize;
+import ZOO.Exception.WrongFoodException;
 import ZOO.Food.Food;
 import ZOO.Food.Grass;
+
+import java.util.Objects;
 
 public class Goat extends Herbivore implements Run, Swim, Voice {
 
     private String name;
     private String color;
+    private final AviarySize size = AviarySize.LARGE;
     private int satiety;
 
     public Goat (String name, String color) {
@@ -17,10 +22,14 @@ public class Goat extends Herbivore implements Run, Swim, Voice {
 
     }
 
+    public Goat() {
+
+    }
+
     @Override
     public void run() {
 
-        System.out.println(name + " скачет по вольеру");
+        System.out.println(color + " " + name + " скачет по вольеру");
         int tiredness = 15;
         satiety = satiety - tiredness;
         System.out.println("Теперь её сытость " + satiety + "%.");
@@ -30,7 +39,7 @@ public class Goat extends Herbivore implements Run, Swim, Voice {
     @Override
     public void swim() {
 
-        System.out.println(name + " плавает в пруду.");
+        System.out.println(color + " " + name + " плавает в пруду.");
         int tiredness = 20;
         satiety = satiety - tiredness;
         System.out.println("Теперь её сытость " + satiety + "%.");
@@ -45,7 +54,7 @@ public class Goat extends Herbivore implements Run, Swim, Voice {
     }
 
     @Override
-    public void eat(Food food) {
+    public void eat(Food food) throws WrongFoodException {
 
         if (food instanceof Grass) {
 
@@ -56,7 +65,7 @@ public class Goat extends Herbivore implements Run, Swim, Voice {
             }
 
         } else {
-            System.out.println(name + " не ест мясо!");
+            throw new WrongFoodException("Животное не ест мясо!");
         }
 
     }
@@ -98,4 +107,26 @@ public class Goat extends Herbivore implements Run, Swim, Voice {
 
     }
 
+    public AviarySize getSize() {
+
+        return size;
+
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Goat goat = (Goat) obj;
+        return Objects.equals(name, goat.name);
+
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(name);
+
+    }
 }

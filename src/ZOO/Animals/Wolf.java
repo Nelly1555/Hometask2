@@ -1,12 +1,17 @@
 package ZOO.Animals;
 
+import ZOO.Aviary.AviarySize;
+import ZOO.Exception.WrongFoodException;
 import ZOO.Food.Food;
 import ZOO.Food.Meat;
+
+import java.util.Objects;
 
 public class Wolf extends Carnivorous implements Run, Swim, Voice {
 
     private String name;
     private String color;
+    private final AviarySize size = AviarySize.HUGE;
     private int satiety;
 
     public Wolf (String name, String color) {
@@ -14,6 +19,10 @@ public class Wolf extends Carnivorous implements Run, Swim, Voice {
         this.name = name;
         this.color = color;
         this.satiety = 0;
+
+    }
+
+    public Wolf() {
 
     }
 
@@ -30,7 +39,7 @@ public class Wolf extends Carnivorous implements Run, Swim, Voice {
     @Override
     public void swim() {
 
-        System.out.println(name + " плавает в пруду.");
+        System.out.println(color + " " + name + " плавает в пруду.");
         int tiredness = 15;
         satiety = satiety - tiredness;
         System.out.println("Теперь его сытость " + satiety + "%.");
@@ -45,7 +54,7 @@ public class Wolf extends Carnivorous implements Run, Swim, Voice {
     }
 
     @Override
-    public void eat(Food food) {
+    public void eat(Food food) throws WrongFoodException {
 
         if (food instanceof Meat) {
             int countOfSatiety = 50;
@@ -55,7 +64,7 @@ public class Wolf extends Carnivorous implements Run, Swim, Voice {
             }
 
         } else {
-            System.out.println(name + " не ест растительную пищу!");
+            throw new WrongFoodException("Животное не ест растительную пищу!");
         }
 
     }
@@ -90,4 +99,26 @@ public class Wolf extends Carnivorous implements Run, Swim, Voice {
         this.satiety = satiety;
     }
 
+    public AviarySize getSize() {
+
+        return size;
+
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Wolf wolf = (Wolf) obj;
+        return Objects.equals(name, wolf.name);
+
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(name);
+
+    }
 }
