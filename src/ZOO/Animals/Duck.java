@@ -1,12 +1,17 @@
 package ZOO.Animals;
 
+import ZOO.Aviary.AviarySize;
+import ZOO.Exception.WrongFoodException;
 import ZOO.Food.Food;
 import ZOO.Food.Meat;
+
+import java.util.Objects;
 
 public class Duck extends Carnivorous implements Run, Swim, Voice, Fly {
 
     private String name;
     private String color;
+    private final AviarySize size = AviarySize.LARGE;
     private int satiety;
 
     public Duck (String name, String color) {
@@ -17,10 +22,14 @@ public class Duck extends Carnivorous implements Run, Swim, Voice, Fly {
 
     }
 
+    public Duck() {
+
+    }
+
     @Override
     public void run() {
 
-        System.out.println(name + " бегает по берегу.");
+        System.out.println(color + " " + name + " бегает по берегу.");
         int tiredness = 15;
         satiety = satiety - tiredness;
         System.out.println("Теперь её сытость " + satiety + "%.");
@@ -30,7 +39,7 @@ public class Duck extends Carnivorous implements Run, Swim, Voice, Fly {
     @Override
     public void swim() {
 
-        System.out.println(name + " плавает в пруду.");
+        System.out.println(color + " " + name + " плавает в пруду.");
         int tiredness = 30;
         satiety = satiety - tiredness;
         System.out.println("Теперь её сытость " + satiety + "%.");
@@ -47,7 +56,7 @@ public class Duck extends Carnivorous implements Run, Swim, Voice, Fly {
     @Override
     public void fly() {
 
-        System.out.println(name + " летает кругами.");
+        System.out.println(color + " " + name + " летает кругами.");
         int tiredness = 15;
         satiety = satiety - tiredness;
         System.out.println("Теперь её сытость " + satiety + "%.");
@@ -55,7 +64,7 @@ public class Duck extends Carnivorous implements Run, Swim, Voice, Fly {
     }
 
     @Override
-    public void eat(Food food) {
+    public void eat(Food food) throws WrongFoodException {
 
         if (food instanceof Meat) {
 
@@ -66,7 +75,7 @@ public class Duck extends Carnivorous implements Run, Swim, Voice, Fly {
             }
 
         } else {
-            System.out.println(name + " не хочет есть растительную пищу!");
+            throw new WrongFoodException("Животное не хочет есть растительную пищу!");
         }
 
     }
@@ -104,6 +113,29 @@ public class Duck extends Carnivorous implements Run, Swim, Voice, Fly {
     public void setSatiety(int satiety) {
 
         this.satiety = satiety;
+
+    }
+
+    public AviarySize getSize() {
+
+        return size;
+
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Duck duck = (Duck) obj;
+        return Objects.equals(name, duck.name);
+
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(name);
 
     }
 

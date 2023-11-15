@@ -1,12 +1,17 @@
 package ZOO.Animals;
 
+import ZOO.Aviary.AviarySize;
+import ZOO.Exception.WrongFoodException;
 import ZOO.Food.Food;
 import ZOO.Food.Meat;
+
+import java.util.Objects;
 
 public class Fish extends Carnivorous implements Swim {
 
     private String name;
     private String color;
+    private final AviarySize size = AviarySize.MEDIUM;
     private int satiety;
 
     public Fish (String name, String color) {
@@ -17,10 +22,14 @@ public class Fish extends Carnivorous implements Swim {
 
     }
 
+    public Fish() {
+
+    }
+
     @Override
     public void swim() {
 
-        System.out.println(name + " плавает в пруду.");
+        System.out.println(color + " " + name + " плавает в пруду.");
         int tiredness = 10;
         satiety = satiety - tiredness;
         System.out.println("Теперь её сытость " + satiety + "%.");
@@ -28,7 +37,7 @@ public class Fish extends Carnivorous implements Swim {
     }
 
     @Override
-    public void eat(Food food) {
+    public void eat(Food food) throws WrongFoodException {
 
         if (food instanceof Meat) {
             int countOfSatiety = 20;
@@ -38,7 +47,7 @@ public class Fish extends Carnivorous implements Swim {
             }
 
         } else {
-            System.out.println(name + " не ест растительную пищу!");
+            throw new WrongFoodException("Животное не ест растительную пищу!");
         }
 
     }
@@ -79,4 +88,26 @@ public class Fish extends Carnivorous implements Swim {
 
     }
 
+    public AviarySize getSize() {
+
+        return size;
+
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Fish fish = (Fish) obj;
+        return Objects.equals(name, fish.name);
+
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(name);
+
+    }
 }
